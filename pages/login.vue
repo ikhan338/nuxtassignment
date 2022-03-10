@@ -1,18 +1,20 @@
 <template>
   <el-row>
-    <el-col :offset="6" :span="12">
-      <el-card shadow="always" style="margin-top: 50px">
+    <el-col :offset="7" :span="10" style="padding:30px">
+      <el-card shadow="always" style="margin-top: 150px;">
         <h3 style="text-align: center">Login</h3>
-        <h6 style="text-align: center">{{ error }}</h6>
-        <el-form :model="form" label-width="120px">
-          <el-form-item label="Username">
+        <el-form :model="form" :ref="form" :rules="rules" label-width="120px">
+          <el-form-item label="Username" prop="username">
             <el-input v-model="form.username"></el-input>
           </el-form-item>
-          <el-form-item label="Password">
-            <el-input v-model="form.password"></el-input>
+          <el-form-item label="Password" prop="password">
+            <el-input v-model="form.password"  show-password></el-input>
+          </el-form-item>
+          <el-form-item >
+            <NuxtLink to="/signup">Sign Up</NuxtLink>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">Sign In</el-button>
+            <el-button type="primary" @click="onSubmit(form)">Sign In</el-button>
             <!-- <el-button>Cancel</el-button> -->
           </el-form-item>
         </el-form>
@@ -33,32 +35,65 @@ export default {
         username: '',
         password: '',
       },
+      rules:{
+        username:[
+          { required: true, message: 'Please Enter Username', trigger: 'blur' } 
+        ],
+        password :[
+          { required: true, message: 'Please Enter Password', trigger: 'blur' } 
+        ]
+      },
       userDetails: {},
       error: '',
     }
   },
   methods: {
-    onSubmit() {
-      // console.log(this.form)
-      this.userDetails = this.allUserList.find(
-        (user) => user.username == this.form.username
-      )
-      // console.log(userDetails)
-      if (
-        this.form.username == this.userDetails.username &&
-        this.form.password == this.userDetails.password
-      ) {
-        // window.localStorage.setItem('demoApp',JSON.stringify(this.userDetails))
-        this.$store.dispatch('authenticated/loginUser', this.userDetails)
-        this.$router.push('/')
-      } else {
-        this.error = 'no valid user'
-      }
+    open(msg) {
+      this.$notify.error({
+        title:"Error",
+        message: msg,
+      })
     },
+    onSubmit(form) {
+      this.$refs[form].validate((valid) => {
+          if (valid) {
+            console.log(form.username)
+              this.userDetails = this.allUserList.find(
+                (user) => user.username == form.username
+              )
+              console.log(this.userDetails)
+              if(this.userDetails!=undefined){
+              if (
+                form.username == this.userDetails.username &&
+                form.password == this.userDetails.password
+              ) {
+                // window.localStorage.setItem('demoApp',JSON.stringify(this.userDetails))
+                this.$store.dispatch('authenticated/loginUser', this.userDetails)
+                this.$router.push('/')
+              } else {
+                this.open('Credentials Not valid')
+              }
+              }else{
+                this.open("User Not Found")
+              }
+          } else 
+          {
+            this.open('Not valid')
+            return false;
+          }
+        });
+      
+    },
+    ...mapActions('login',['initializeUserList'])
   },
   computed: {
     ...mapGetters('login', ['allUserList']),
   },
+  mounted() {
+    this.initializeUserList()
+  }
+ 
+
 }
 </script>
 

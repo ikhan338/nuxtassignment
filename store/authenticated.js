@@ -22,7 +22,6 @@ const actions ={
         commit('setUserStatus',status)
     },
     logoutUser(){
-        console.log("clear storage")
         localStorage.removeItem('demoApp')
     }
 }
