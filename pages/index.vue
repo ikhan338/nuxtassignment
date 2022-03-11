@@ -23,7 +23,8 @@
             <PlanetChart />
           </el-col>
           <el-col :span="24" style="margin-top:10px">
-            <UserData />
+            <!-- <UserData /> -->
+            <FakeData />
           </el-col>
         </el-row>
     </el-col>
