@@ -1,16 +1,9 @@
 <template>
-  <el-row>
-    <el-col :span="sideBarSize" style="background:#f4f4f4">
-      <el-container >
-        <SideNavBar @closed="closed($event)" />
-      </el-container>
-    </el-col>
-    <el-col :span="rightBarSize" >
-        <HeaderTemplate />
+    <div>
         <el-row>
           <el-col :span="10" style="padding:30px">
             <!-- <PieChart /> -->
-            <el-card shadow="hover" style="padding:10px;">
+            <el-card shadow="hover" style="psadding:10px;">
               <h1>Total Aggregate</h1>
               <h3 style="color:gray">21,212</h3>
             </el-card>
@@ -27,8 +20,7 @@
             <FakeData />
           </el-col>
         </el-row>
-    </el-col>
-  </el-row>
+    </div>
 </template>
 
 <script>
@@ -36,6 +28,7 @@ import auth from '../middleware/auth'
 
 export default {
   name: 'IndexPage',
+  layout:'app',
   data(){
     return {
       sideBarSize:1,

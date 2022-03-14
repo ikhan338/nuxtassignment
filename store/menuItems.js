@@ -29,7 +29,7 @@ const menu = [
     },
     {
         "id":"2",
-        "title":"Nav Two",
+        "title":"About One",
         "icon":"el-icon-setting",
         "submenu":false,
         "url":"/aboutOne",
@@ -37,7 +37,7 @@ const menu = [
     },
     {
         "id":"3",
-        "title":"Nav Three",
+        "title":"About Two",
         "icon":"el-icon-menu",
         "submenu":false,
         "url":"/aboutTwo",

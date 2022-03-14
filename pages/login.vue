@@ -69,7 +69,7 @@ export default {
               ) {
                 // window.localStorage.setItem('demoApp',JSON.stringify(this.userDetails))
                 var dt = new Date();
-                var tokenExpiry= dt.setSeconds( dt.getSeconds() + 120 );
+                var tokenExpiry= dt.setSeconds( dt.getSeconds() + 620 );
                 // document.write(tokenExpiry
                 
                 this.$store.dispatch('authenticated/loginUser',Object.assign(this.userDetails,{ timeOut :  tokenExpiry} ))

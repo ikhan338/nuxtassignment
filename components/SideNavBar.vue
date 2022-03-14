@@ -10,31 +10,31 @@
      <el-menu
       default-active="2"
       class="el-menu-vertical-demo"
-      :collapse="isCollapse"
+      :collapse="getCollapsed" :router="true"
     >
-      <el-menu-item  v-if="!isCollapse" @click="handleCollapse">
+      <el-menu-item  v-if="!getCollapsed" @click="handleCollapse">
         <i class="el-icon-d-arrow-left" />
         <span slot="title">Menu</span>
       </el-menu-item>
-      <el-menu-item  v-if="isCollapse" @click="handleCollapse">
+      <el-menu-item  v-if="getCollapsed" @click="handleCollapse">
         <i class="el-icon-d-arrow-right" />
       </el-menu-item>
 
       <template v-for="menu in allMenus">
-        <el-submenu v-if="menu.submenu"  :key="menu.id" :index="menu.title">
+        <el-submenu v-if="menu.submenu"  :key="menu.id" :index="menu.url">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span slot="title">{{ menu.title }}</span>
           </template>
           <el-menu-item-group v-for="submenuitem in menu.submenuitems" :key="submenuitem.id">
-            <el-menu-item index="submenuitem.url" :to="submenuitem.url"> 
+            <el-menu-item :index="submenuitem.url" > 
               <!-- <NuxtLink :to="submenuitem.url" > </NuxtLink>   -->
               {{submenuitem.title}} 
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
 
-        <el-menu-item  :key="menu.id" route="/login" v-else :index="menu.title">
+        <el-menu-item  :key="menu.id" v-else :index="menu.url" >
           <i :class="menu.icon" />
           <span slot="title" > {{ menu.title }} </span>
         </el-menu-item>
@@ -51,41 +51,33 @@ export default {
   name: 'SideNavBar',
   data () {
     return {
-      isCollapse:false
+      // isCollapse:false
     }
   },
   methods: {
-    handleCollapse(){
-        this.isCollapse = !this.isCollapse
-        console.log('calling collapse')
-        localStorage.setItem('collapse',String(this.isCollapse))
-        if(this.isCollapse==true){
-          this.$emit('closed',true)
-        }else{
-          this.$emit('closed',false)
-        }
+    handleSelect(key, keyPath) {
+        console.log(key, keyPath);
     },
-    ...mapActions('menu',['fetchMenuItems']),
-    setcollapse(){
-      this.isCollapse=false
-      const collapse = localStorage.getItem('collapse')
-      if(collapse==null){
-        console.log('collapse is null')
-        localStorage.setItem('collapse','true')
-      }else{
-
-      this.isCollapse=Boolean(localStorage.getItem('collapse'))
-      console.log("setting collapse"+this.isCollapse)
-      }
-    }
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleCollapse(){
+      this.$store.commit('authenticated/setCollapsed', !this.getCollapsed)
+    },
+    ...mapActions('menu',['fetchMenuItems'])
   },
   created () {
-    this.fetchMenuItems(),
-    this.setcollapse()
+    this.fetchMenuItems()
   },
   computed:{
     ...mapGetters('menu',['allMenus']),
-    
+    ...mapGetters('authenticated',['getCollapsed']),
+    activePath(){
+        return this.$route.path
+    },
   }
 
 }
