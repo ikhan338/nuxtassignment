@@ -68,7 +68,11 @@ export default {
                 form.password == this.userDetails.password
               ) {
                 // window.localStorage.setItem('demoApp',JSON.stringify(this.userDetails))
-                this.$store.dispatch('authenticated/loginUser', this.userDetails)
+                var dt = new Date();
+                var tokenExpiry= dt.setSeconds( dt.getSeconds() + 120 );
+                // document.write(tokenExpiry
+                
+                this.$store.dispatch('authenticated/loginUser',Object.assign(this.userDetails,{ timeOut :  tokenExpiry} ))
                 this.$router.push('/')
               } else {
                 this.open('Credentials Not valid')
@@ -78,7 +82,7 @@ export default {
               }
           } else 
           {
-            this.open('Not valid')
+
             return false;
           }
         });

@@ -27,15 +27,18 @@
             <span slot="title">{{ menu.title }}</span>
           </template>
           <el-menu-item-group v-for="submenuitem in menu.submenuitems" :key="submenuitem.id">
-            <el-menu-item index="submenuitem.id" >{{ submenuitem.title }}</el-menu-item>
+            <el-menu-item index="submenuitem.url" :to="submenuitem.url"> 
+              <!-- <NuxtLink :to="submenuitem.url" > </NuxtLink>   -->
+              {{submenuitem.title}} 
+            </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
 
-        <el-menu-item  :key="menu.id" v-else :index="menu.title">
+        <el-menu-item  :key="menu.id" route="/login" v-else :index="menu.title">
           <i :class="menu.icon" />
           <span slot="title" > {{ menu.title }} </span>
         </el-menu-item>
-
+        
       </template>
     </el-menu>
   </el-aside>
@@ -48,26 +51,41 @@ export default {
   name: 'SideNavBar',
   data () {
     return {
-      isCollapse: true
+      isCollapse:false
     }
   },
   methods: {
     handleCollapse(){
         this.isCollapse = !this.isCollapse
+        console.log('calling collapse')
+        localStorage.setItem('collapse',String(this.isCollapse))
         if(this.isCollapse==true){
           this.$emit('closed',true)
         }else{
           this.$emit('closed',false)
         }
     },
-    ...mapActions('menu',['fetchMenuItems'])
-    
+    ...mapActions('menu',['fetchMenuItems']),
+    setcollapse(){
+      this.isCollapse=false
+      const collapse = localStorage.getItem('collapse')
+      if(collapse==null){
+        console.log('collapse is null')
+        localStorage.setItem('collapse','true')
+      }else{
+
+      this.isCollapse=Boolean(localStorage.getItem('collapse'))
+      console.log("setting collapse"+this.isCollapse)
+      }
+    }
   },
-  mounted () {
-    this.fetchMenuItems()
+  created () {
+    this.fetchMenuItems(),
+    this.setcollapse()
   },
   computed:{
-    ...mapGetters('menu',['allMenus'])
+    ...mapGetters('menu',['allMenus']),
+    
   }
 
 }

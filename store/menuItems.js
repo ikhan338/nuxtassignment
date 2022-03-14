@@ -1,58 +1,46 @@
 const menu = [
     {
-        "id":1,
+        "id":"1",
         "icon":"el-icon-location",
-        "title":"Nav One",
+        "title":"Home",
+        "url":"",
         "submenu":true,
         "submenuitems":[
             {
-                "id":1.1,
-                "title":"sub One",
+                "id":"1-1",
+                "title":"Dashboard",
                 "submenu":false,
-                "url":"google.com"
+                "url":"/"
             },
             {
-                "id":1.2,
-                "title":"sub 2",
+                "id":"1-2",
+                "title":"Home One",
                 "submenu":false,
-                "url":"google.com"
+                "url":"/homeOne"
             },
             {
-                "id":1.3,
-                "title":"sub 3",
+                "id":"1-3",
+                "title":"Home Two",
                 "submenu":false,
-                "url":"google.com",
-                "submenuitems":[
-                    {
-                        "id":1.2,
-                        "title":"sub sub One",
-                        "submenu":false,
-                        "url":"google.com"
-                    },
-                    {
-                        "id":1.3,
-                        "title":"sub sub 2",
-                        "submenu":false,
-                        "url":"google.com"
-                    }
-                ]
+                "url":"/homeTwo"
             }
             
         ]            
     },
     {
-        "id":2,
+        "id":"2",
         "title":"Nav Two",
         "icon":"el-icon-setting",
         "submenu":false,
-        "url":"google.com",
+        "url":"/aboutOne",
         "submenuitems":[]
     },
     {
-        "id":3,
+        "id":"3",
         "title":"Nav Three",
         "icon":"el-icon-menu",
         "submenu":false,
+        "url":"/aboutTwo",
         "submenuitems":[]
     }
 ]

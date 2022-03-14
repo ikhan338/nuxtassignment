@@ -15,11 +15,8 @@
       <el-col :span="12">
         <el-form label-width="120px" size="mini">
           <el-form-item label="Search Item" >
-            <el-col :span="12">
-              <el-input v-model="searchItem" placeholder="Search by Name"></el-input>
-            </el-col>
-            <el-col :span="12">
-              <el-button type="primary" @click="onSubmit">Search</el-button>
+            <el-col :span="24">
+              <el-input v-model="searchItem" placeholder="Search"></el-input>
             </el-col>
           </el-form-item>
         </el-form>
